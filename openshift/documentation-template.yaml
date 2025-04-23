@@ -1,0 +1,35 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: documentation-template
+objects:
+  - kind: Route
+    apiVersion: route.openshift.io/v1
+    metadata:
+      name: documentation
+    spec:
+      to:
+        kind: Service
+        name: documentation
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: documentation
+    spec:
+      ports:
+        - port: 8081
+          targetPort: 8081
+  - kind: DeploymentConfig
+    apiVersion: v1
+    metadata:
+      name: documentation
+    spec:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: documentation
+              image: ${IMAGE_REGISTRY}/documentation:stable
+parameters:
+  - name: IMAGE_REGISTRY
+    required: true

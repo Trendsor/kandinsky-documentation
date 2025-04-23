@@ -1,0 +1,6 @@
+replicaCount: 1
+image:
+  repository: myregistry/documentation
+  tag: stable
+service:
+  port: 8081
